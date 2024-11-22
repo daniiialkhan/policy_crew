@@ -1,0 +1,26 @@
+scraping_task:
+  description: >
+    Go to Website and scrape and collect all the content in it related to {query}
+    store it as plain text
+  expected_output: >
+    A detailed text of the related information in the website
+  agent: scraper
+
+query_resolver_task:
+  description: >
+    Review the context you got and answer the Query: {query}. Make sure to 
+    simplify every jargon or difficult thing in layman terms in your answer.
+    Make sure the asnwer is easy to understand and concise.
+  expected_output: >
+    An easy to understand answer, Formatted as markdown without '```'
+  agent: query_resolver
+
+# verifier_task:
+#   description: >
+#     Review the context you got, verify the terms present in it with the help of internet
+#     make sure that the explainations are correct and accurate and form a report of the context
+#     with corrections highlighted if any.
+#   expected_output: >
+#     A verified version of context in the form of a report, any corrections outlined
+#     Formatted as markdown without '```'
+#   agent: verifier
