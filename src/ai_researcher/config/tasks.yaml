@@ -1,6 +1,14 @@
+chatbot_task:
+  description: >
+    introduce yourself to the user and await thier question.
+    if the user asks a question, do not answer it, instead just repeat it back to them
+  expected_output: >
+    your introduction, or the question of the user repeat to them
+  agent: chatbot
+
 scraping_task:
   description: >
-    Go to Website and scrape and collect all the content in it related to {query}
+    Go to Website and retrieve and collect all the content in it related to the context you recieve,
     store it as plain text
   expected_output: >
     A detailed text of the related information in the website
@@ -8,9 +16,9 @@ scraping_task:
 
 query_resolver_task:
   description: >
-    Review the context you got and answer the Query: {query}. Make sure to 
-    simplify every jargon or difficult thing in layman terms in your answer.
-    Make sure the asnwer is easy to understand and concise.
+    Review the context you got and make sure to simplify it, 
+    every jargon or difficult thing should be converted into layman terms in your answer.
+    Make sure the answer is easy to understand and concise.
   expected_output: >
     An easy to understand answer, Formatted as markdown without '```'
   agent: query_resolver

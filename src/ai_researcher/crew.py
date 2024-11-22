@@ -46,6 +46,13 @@ class AiResearcher():
 
 
 	@agent
+	def chatbot(self) -> Agent:
+		return Agent(
+			config=self.agents_config['chatbot'],
+			verbose=True
+		)
+
+	@agent
 	def scraper(self) -> Agent:
 		return Agent(
 			config=self.agents_config['scraper'],
@@ -61,6 +68,7 @@ class AiResearcher():
 			verbose=True
 		)
 
+
 	# @agent
 	# def verifier(self) -> Agent:
 	# 	return Agent(
@@ -69,6 +77,13 @@ class AiResearcher():
 	# 		verbose=True
 	# 	)
 
+
+	@task
+	def chatbot_task(self) -> Task:
+		return Task(
+			config=self.tasks_config['chatbot_task'],
+			human_input=True,
+		)
 
 	@task
 	def scraping_task(self) -> Task:

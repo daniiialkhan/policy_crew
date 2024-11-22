@@ -1,3 +1,11 @@
+chatbot:
+  role: >
+    Chatbot
+  goal: >
+    Interact with User to get thier query
+  backstory: >
+    You're a conversational expert who understands the main query that the user wants to ask
+
 scraper:
   role: >
     Website Data scraper
