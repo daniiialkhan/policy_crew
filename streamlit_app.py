@@ -1,35 +1,59 @@
 import streamlit as st
 from dotenv import load_dotenv
+from src.ai_researcher.crew import AiResearcher
+import os
 
-st.title("Policy Word Agent")
-
+# Load environment variables
 load_dotenv()
 
-from src.ai_researcher.crew import AiResearcher
+# Streamlit app title
+st.title("Policy Word Agent Chatbot")
 
-input = st.text_input(label="Enter Query here:")
-# input = st.chat_input()
-# output = ""
-# st.session_state["output"] = ""
-# inputs = {
-#         # 'query': 'Answer me in list form, tell me the meaning of the following terms: Dividend, Dwelling Property, Derivative.'
-#         'query': input
-#     }
+def format_chat_history(messages):
+    """
+    Format chat history as a string in the format:
+    <role>:<content>,<role>:<content>, ...
+    """
+    return ",".join([f"{msg['role']}:{msg['content']}" for msg in messages])
 
-if st.button("Run Query"):
-    if input.strip():
-        # Pass the user query to the crew
-        try:
-            inputs = {'query': input}
-            ai_researcher = AiResearcher()
-            result = ai_researcher.crew().kickoff(inputs=inputs)
-            
-            # Display the result
-            st.subheader("Output:")
-            st.text(result)
-        except Exception as e:
-            st.error(f"An error occurred: {e}")
-    else:
-        st.warning("Please enter a query before running.")
+# Initialize session state for chat messages
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
+# Display chat history
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
+# Get user input using st.chat_input
+if prompt := st.chat_input("Ask a question:"):
+    # Add user's message to the session state
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    # Process the query with the AiResearcher agent
+    try:
+        context = format_chat_history(st.session_state.messages)
+        ai_researcher = AiResearcher()
+        inputs = {"query": prompt,"context":context}
+        ai_researcher.crew().kickoff(inputs=inputs)
+
+        # Read the response from 'answer.md'
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        output_file_path = os.path.join(current_dir, 'answer.md')
+        if os.path.exists(output_file_path):
+            with open(output_file_path, 'r') as f:
+                response = f.read()
+        else:
+            response = "No response generated."
+
+        # Add the AI's response to the session state
+        st.session_state.messages.append({"role": "assistant", "content": response})
+        with st.chat_message("assistant"):
+            st.markdown(response)
+    except Exception as e:
+        error_message = f"Error: {e}"
+        st.session_state.messages.append({"role": "assistant", "content": error_message})
+        with st.chat_message("assistant"):
+            st.markdown(error_message)
