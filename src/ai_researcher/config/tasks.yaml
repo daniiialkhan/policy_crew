@@ -9,11 +9,11 @@
 scraping_task:
   description: >
     Analyse the context of the converstation with the user: {context}, then extract the context of
-    the query {query}, and based on that go to Website and retrieve and collect all the content
+    the query {query}, and based on that go to PDF and retrieve and collect all the content
     in it related to the query of the user,
     store it as plain text
   expected_output: >
-    A detailed text of the related information in the website
+    A detailed text of the related information in the PDF
   agent: scraper
 
 query_resolver_task:

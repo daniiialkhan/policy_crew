@@ -16,7 +16,8 @@ def run():
     Run the crew.
     """
     inputs = {
-        'query': 'Answer me in list form, tell me the meaning of the following terms: Dividend, Dwelling Property, Derivative.'
+        'query': 'Answer me in list form, tell me the meaning of the following terms: Dividend, Dwelling Property, Derivative.',
+        "context": "Dicussing with a layman you doesnt know technical terms"
     }
     AiResearcher().crew().kickoff(inputs=inputs)
 
@@ -26,7 +27,8 @@ def train():
     Train the crew for a given number of iterations.
     """
     inputs = {
-        "query": "What is Direct Incurred Loss?"
+        "query": "What is Direct Incurred Loss?",
+        "context": "Dicussing with a layman about Direct Incurred Loss"
     }
     try:
         AiResearcher().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
