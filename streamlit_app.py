@@ -1,11 +1,13 @@
-import streamlit as st
-from dotenv import load_dotenv
-from src.ai_researcher.crew import PolicyAgenticRAG
-import os
 __import__('pysqlite3')
 import sys
 
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+import streamlit as st
+from dotenv import load_dotenv
+from src.ai_researcher.crew import PolicyAgenticRAG
+import os
+
 
 # Load environment variables
 load_dotenv()
