@@ -40,8 +40,8 @@ load_dotenv()
 # )
 
 @CrewBase
-class AiResearcher:
-    """AiResearcher Crew"""
+class PolicyAgenticRAG:
+    """PolicyAgenticRAG Crew"""
 
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
@@ -102,7 +102,7 @@ class AiResearcher:
     
     @crew
     def crew(self) -> Crew:
-        """Creates the AiResearcher Crew"""
+        """Creates the PolicyAgenticRAG Crew"""
         return Crew(
             agents=self.agents,
             tasks=self.tasks,

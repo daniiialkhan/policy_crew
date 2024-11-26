@@ -1,6 +1,6 @@
 import streamlit as st
 from dotenv import load_dotenv
-from src.ai_researcher.crew import AiResearcher
+from src.ai_researcher.crew import PolicyAgenticRAG
 import os
 
 # Load environment variables
@@ -92,11 +92,11 @@ def page_2():
         with st.chat_message("user"):
             st.markdown(prompt)
 
-        # Process the query with the AiResearcher agent
+        # Process the query with the PolicyAgenticRAG agent
         try:
             print("Trying...")
             context = format_chat_history(st.session_state.messages)
-            ai_researcher = AiResearcher()
+            ai_researcher = PolicyAgenticRAG()
             inputs = {"query": prompt,"context":context}
             ai_researcher.crew().kickoff(inputs=inputs)
 
