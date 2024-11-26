@@ -23,21 +23,21 @@ load_dotenv()
 #     ),
 #     website="https://content.naic.org/glossary-insurance-terms"
 # )
-pdf_search_tool = PDFSearchTool(
-    pdf="data/vehical-Insurance-terminologies-ebook-compressed.pdf",
-    config=dict(
-        llm=dict(
-            provider="azure_openai",
-            config=dict(
-                model="gpt-35-turbo"
-            )
-        ),
-        embedder=dict(
-            provider="azure_openai",
-            config=dict(model="text-embedding-ada-002"),
-        )
-    )
-)
+# pdf_search_tool = PDFSearchTool(
+#     pdf="uploaded_files/uploaded.pdf",
+#     config=dict(
+#         llm=dict(
+#             provider="azure_openai",
+#             config=dict(
+#                 model="gpt-35-turbo"
+#             )
+#         ),
+#         embedder=dict(
+#             provider="azure_openai",
+#             config=dict(model="text-embedding-ada-002"),
+#         )
+#     )
+# )
 
 @CrewBase
 class AiResearcher:
@@ -49,9 +49,42 @@ class AiResearcher:
     def step_callback(output):
         print(f"output: {output}")
 
+    def create_pdf_search_tool(self):
+        pdf_search_tool = PDFSearchTool(
+            pdf="uploaded_files/uploaded.pdf",
+            config=dict(
+                llm=dict(
+                    provider="azure_openai",
+                    config=dict(
+                        model="gpt-35-turbo"
+                    )
+                ),
+                embedder=dict(
+                    provider="azure_openai",
+                    config=dict(model="text-embedding-ada-002"),
+                )
+            )
+        )
+        return pdf_search_tool
+    # pdf_search_tool = PDFSearchTool(
+    #     pdf="uploaded_files/uploaded.pdf",
+    #     config=dict(
+    #         llm=dict(
+    #             provider="azure_openai",
+    #             config=dict(
+    #                 model="gpt-35-turbo"
+    #             )
+    #         ),
+    #         embedder=dict(
+    #             provider="azure_openai",
+    #             config=dict(model="text-embedding-ada-002"),
+    #         )
+    #     )
+    # )
+
     @agent
     def scraper(self) -> Agent:
-        return Agent(config=self.agents_config['scraper'], tools=[pdf_search_tool], verbose=True)
+        return Agent(config=self.agents_config['scraper'], tools=[self.create_pdf_search_tool()], verbose=True)
 
     @agent
     def query_resolver(self) -> Agent:
