@@ -3,4 +3,3 @@ crewai-tools
 python-dotenv
 streamlit
 chromadb==0.5.20
-sqlite3==3.36.0
